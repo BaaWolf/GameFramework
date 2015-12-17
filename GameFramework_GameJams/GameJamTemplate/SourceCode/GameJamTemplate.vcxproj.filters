@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="SbCamera.cpp">
+      <Filter>SourceCode\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SbFrustum.cpp">
+      <Filter>SourceCode\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SbModel.cpp">
+      <Filter>SourceCode\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="SbSound.cpp">
+      <Filter>SourceCode\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SbSprite.cpp">
+      <Filter>SourceCode\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SbPhysics.cpp">
+      <Filter>SourceCode\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="SbMain.cpp">
+      <Filter>SourceCode\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SbRenderSkybox.cpp">
+      <Filter>SourceCode\Skybox</Filter>
+    </ClCompile>
+    <ClCompile Include="SbSmoke.cpp">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClCompile>
+    <ClCompile Include="SbMenu.cpp">
+      <Filter>SourceCode\Menu</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SbCamera.h">
+      <Filter>SourceCode\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SbFrustum.h">
+      <Filter>SourceCode\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SbModel.h">
+      <Filter>SourceCode\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="SbSound.h">
+      <Filter>SourceCode\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SbSprite.h">
+      <Filter>SourceCode\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SbPhysics.h">
+      <Filter>SourceCode\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SbMain.h">
+      <Filter>SourceCode\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SbRenderSkybox.h">
+      <Filter>SourceCode\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="SbParticle.h">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClInclude>
+    <ClInclude Include="SbSmoke.h">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClInclude>
+    <ClInclude Include="SbWorld.h">
+      <Filter>SourceCode\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SbMenu.h">
+      <Filter>SourceCode\Menu</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="SourceCode">
+      <UniqueIdentifier>{c21f67e3-0e23-4dc3-bd48-22a365b0bdd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Camera">
+      <UniqueIdentifier>{5f82f562-0a05-49a0-a93e-235fffad0deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Main">
+      <UniqueIdentifier>{1b77d58e-da46-4869-8d5e-ea3d564c7d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Models">
+      <UniqueIdentifier>{de37591a-9008-4679-bd89-b7043e7778a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Sprite">
+      <UniqueIdentifier>{7243853d-9c1f-48ad-b8bd-845a7ccbe66f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Sound">
+      <UniqueIdentifier>{6d0839fc-9f13-4717-8330-2d5dac944848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Skybox">
+      <UniqueIdentifier>{eb1671bd-a79a-4ad7-9a19-8ff592c32f4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Physics">
+      <UniqueIdentifier>{61494f12-3811-43aa-a2d7-f0a4de4a6058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\ParticleFX">
+      <UniqueIdentifier>{fd651c53-35db-4939-8f46-d55865d0cfde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData">
+      <UniqueIdentifier>{0fd7b610-50db-4d5c-add8-ff9a8b85ef0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\game.archive">
+      <UniqueIdentifier>{2e5efc6f-b902-40e8-bbec-ae0db7b08151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\game.archive\Models">
+      <UniqueIdentifier>{5261afcb-24dc-479a-8a49-da99a59403f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\game.archive\Shaders">
+      <UniqueIdentifier>{bae7faa5-e7b7-44af-a879-873d9ba4d584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\menu.archive">
+      <UniqueIdentifier>{dd318d17-bc64-4cd1-96d8-2bb9431f7fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Menu">
+      <UniqueIdentifier>{817ec002-0254-4c7b-bd1f-eb21fd36c05f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\GameData\Game.Archive\Shaders\projectedTexture.frag">
+      <Filter>GameData\game.archive\Shaders</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Shaders\shaderLit.frag">
+      <Filter>GameData\game.archive\Shaders</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Shaders\shaderLitTextured.frag">
+      <Filter>GameData\game.archive\Shaders</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Shaders\shaderPassThrough.frag">
+      <Filter>GameData\game.archive\Shaders</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Shaders\shaderSkin.frag">
+      <Filter>GameData\game.archive\Shaders</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Shaders\shaderTextured.frag">
+      <Filter>GameData\game.archive\Shaders</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Shaders\shadow.frag">
+      <Filter>GameData\game.archive\Shaders</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Models\sphere.mqo">
+      <Filter>GameData\game.archive\Models</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Models\skybox.mqo">
+      <Filter>GameData\game.archive\Models</Filter>
+    </None>
+    <None Include="..\GameData\Game.Archive\Models\cube.dae">
+      <Filter>GameData\game.archive\Models</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\GameData\Game.Archive\Models\panorama.png">
+      <Filter>GameData\game.archive\Models</Filter>
+    </Image>
+    <Image Include="..\GameData\Game.Archive\Models\cube.png">
+      <Filter>GameData\game.archive\Models</Filter>
+    </Image>
+    <Image Include="..\GameData\menu.archive\Sprites\game.png">
+      <Filter>GameData\menu.archive</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\GameData\menu.archive\UserData\menu.txt">
+      <Filter>GameData\menu.archive</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

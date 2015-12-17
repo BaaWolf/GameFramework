@@ -1,0 +1,6 @@
+Lit False
+Texture0 guirendertarget.png
+Sprite no
+ZWrite no
+Lit no
+transparent yes

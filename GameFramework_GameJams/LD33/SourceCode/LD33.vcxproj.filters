@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="SbMain.cpp">
+      <Filter>SourceCode</Filter>
+    </ClCompile>
+    <ClCompile Include="SbRenderSkybox.cpp">
+      <Filter>SourceCode\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="SbCamera.cpp">
+      <Filter>SourceCode\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="SbFrustum.cpp">
+      <Filter>SourceCode\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="SbKraken.cpp">
+      <Filter>SourceCode\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SbModel.cpp">
+      <Filter>SourceCode\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="SbPhysics.cpp">
+      <Filter>SourceCode\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="SbSea.cpp">
+      <Filter>SourceCode\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="SbBody.cpp">
+      <Filter>SourceCode\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="SbShips.cpp">
+      <Filter>SourceCode\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="SbMaterial.cpp">
+      <Filter>SourceCode\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="SbSound.cpp">
+      <Filter>SourceCode\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="SbSprite.cpp">
+      <Filter>SourceCode\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="SbShip.cpp">
+      <Filter>SourceCode\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="SbDepthCharge.cpp">
+      <Filter>SourceCode\DepthCharges</Filter>
+    </ClCompile>
+    <ClCompile Include="SbDepthCharges.cpp">
+      <Filter>SourceCode\DepthCharges</Filter>
+    </ClCompile>
+    <ClCompile Include="SbMenu.cpp">
+      <Filter>SourceCode</Filter>
+    </ClCompile>
+    <ClCompile Include="SbHealthBar.cpp">
+      <Filter>SourceCode\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="SbTrail.cpp">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClCompile>
+    <ClCompile Include="SbBubbles.cpp">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClCompile>
+    <ClCompile Include="SbSmoke.cpp">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SbMain.h">
+      <Filter>SourceCode</Filter>
+    </ClInclude>
+    <ClInclude Include="SbRenderSkybox.h">
+      <Filter>SourceCode\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="SbCamera.h">
+      <Filter>SourceCode\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SbFrustum.h">
+      <Filter>SourceCode\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SbKraken.h">
+      <Filter>SourceCode\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SbModel.h">
+      <Filter>SourceCode\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SbPhysics.h">
+      <Filter>SourceCode\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SbWorld.h">
+      <Filter>SourceCode\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="SbSea.h">
+      <Filter>SourceCode\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="SbBody.h">
+      <Filter>SourceCode\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SbShips.h">
+      <Filter>SourceCode\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="SbMaterial.h">
+      <Filter>SourceCode\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SbSound.h">
+      <Filter>SourceCode\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SbSprite.h">
+      <Filter>SourceCode\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SbShip.h">
+      <Filter>SourceCode\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="SbDepthCharge.h">
+      <Filter>SourceCode\DepthCharges</Filter>
+    </ClInclude>
+    <ClInclude Include="SbDepthCharges.h">
+      <Filter>SourceCode\DepthCharges</Filter>
+    </ClInclude>
+    <ClInclude Include="SbMenu.h">
+      <Filter>SourceCode</Filter>
+    </ClInclude>
+    <ClInclude Include="SbHealthBar.h">
+      <Filter>SourceCode\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="SbParticle.h">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClInclude>
+    <ClInclude Include="SbTrail.h">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClInclude>
+    <ClInclude Include="SbBubbles.h">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClInclude>
+    <ClInclude Include="SbSmoke.h">
+      <Filter>SourceCode\ParticleFX</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="SourceCode">
+      <UniqueIdentifier>{330ff6c1-dfc4-4ac7-822f-71510207ecec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Physics">
+      <UniqueIdentifier>{109e1612-3473-4d33-bf17-97d83b6952b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\AI">
+      <UniqueIdentifier>{bf5f626e-328a-4b29-a08d-b38bb3735fb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Misc">
+      <UniqueIdentifier>{7ff51bd2-b392-4019-a09a-f816a9f7dc70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Player">
+      <UniqueIdentifier>{67c5db47-202f-422f-b34a-f43ce15847f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\Environment">
+      <UniqueIdentifier>{c4d8e210-b1a7-45b7-bac2-7a16720d4ada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\DepthCharges">
+      <UniqueIdentifier>{d8082d41-e8e2-4614-9062-055b49e4cd77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\HUD">
+      <UniqueIdentifier>{991eb00a-9cdd-4849-86ad-ddbc31a16aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCode\ParticleFX">
+      <UniqueIdentifier>{0876831a-2a40-4332-aa45-d6dfdf96fcd0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

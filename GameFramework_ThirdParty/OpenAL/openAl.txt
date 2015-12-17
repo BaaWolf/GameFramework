@@ -1,0 +1,12 @@
+Files needed in this folder
+
+https://www.openal.org/downloads/
+
+al.h
+alc.h
+efx.h
+efx-creative.h
+EFX-Util.h
+OpenAL32.lib
+xram.h
+

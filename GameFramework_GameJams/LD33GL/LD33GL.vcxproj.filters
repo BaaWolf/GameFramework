@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="BatchFiles">
+      <UniqueIdentifier>{a0cbc961-bb75-454c-bf9c-553547bc0215}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LD33\BatchFiles\OpenGameData.bat">
+      <Filter>BatchFiles</Filter>
+    </None>
+    <None Include="..\LD33\BatchFiles\Pack.bat">
+      <Filter>BatchFiles</Filter>
+    </None>
+  </ItemGroup>
+</Project>

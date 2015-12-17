@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SbBody.cpp" />
+    <ClCompile Include="SbBubbles.cpp" />
+    <ClCompile Include="SbCamera.cpp" />
+    <ClCompile Include="SbDepthCharge.cpp" />
+    <ClCompile Include="SbDepthCharges.cpp" />
+    <ClCompile Include="SbFrustum.cpp" />
+    <ClCompile Include="SbHealthBar.cpp" />
+    <ClCompile Include="SbKraken.cpp" />
+    <ClCompile Include="SbMain.cpp" />
+    <ClCompile Include="SbMaterial.cpp" />
+    <ClCompile Include="SbMenu.cpp" />
+    <ClCompile Include="SbModel.cpp" />
+    <ClCompile Include="SbPhysics.cpp" />
+    <ClCompile Include="SbRenderSkybox.cpp" />
+    <ClCompile Include="SbSea.cpp" />
+    <ClCompile Include="SbShip.cpp" />
+    <ClCompile Include="SbShips.cpp" />
+    <ClCompile Include="SbSmoke.cpp" />
+    <ClCompile Include="SbSound.cpp" />
+    <ClCompile Include="SbSprite.cpp" />
+    <ClCompile Include="SbTrail.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SbBody.h" />
+    <ClInclude Include="SbBubbles.h" />
+    <ClInclude Include="SbCamera.h" />
+    <ClInclude Include="SbDepthCharge.h" />
+    <ClInclude Include="SbDepthCharges.h" />
+    <ClInclude Include="SbFrustum.h" />
+    <ClInclude Include="SbHealthBar.h" />
+    <ClInclude Include="SbKraken.h" />
+    <ClInclude Include="SbMain.h" />
+    <ClInclude Include="SbMaterial.h" />
+    <ClInclude Include="SbMenu.h" />
+    <ClInclude Include="SbModel.h" />
+    <ClInclude Include="SbParticle.h" />
+    <ClInclude Include="SbPhysics.h" />
+    <ClInclude Include="SbRenderSkybox.h" />
+    <ClInclude Include="SbSea.h" />
+    <ClInclude Include="SbShip.h" />
+    <ClInclude Include="SbShips.h" />
+    <ClInclude Include="SbSmoke.h" />
+    <ClInclude Include="SbSound.h" />
+    <ClInclude Include="SbSprite.h" />
+    <ClInclude Include="SbTrail.h" />
+    <ClInclude Include="SbWorld.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F07C200D-1AFA-42FF-9DDD-28308B3DC6F7}</ProjectGuid>
+    <RootNamespace>Sandbox</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\GameFrameWork\StruffyLite\includes\;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Maths;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\BinaryArchive;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\RenderSystem;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Base;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\HTTPRequest;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\RandomNumbers;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Sound;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\SceneGrap;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Application;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Dynamics;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\UserInterface;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Base\;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\SceneGraph\;$(SolutionDir)\..\..\GameFrameWork\StruffyLiteDX11\RenderSystem\;$(SolutionDir)\..\..\GameFrameWork\StruffyLiteDX11\SceneGraph;$(SolutionDir)\..\..\GameFramework_Tutorials\Tutorial1\SourceCode;$(SolutionDir)\..\..\GameFrameWork\Game\;$(SolutionDir)\..\..\GameFrameWork\Shared;$(SolutionDir)\..\..\GameFramework_ThirdParty\ZLib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(SolutionDir)\..\..\GameFrameWork\StruffyLiteDX11\Base;$(SolutionDir)\..\..\GameFrameWork\Dynamics;$(SolutionDir)\..\..\GameFrameWork\Helper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\GameFrameWork\StruffyLite\includes\;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Maths;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\BinaryArchive;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\RenderSystem;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Base;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\HTTPRequest;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\RandomNumbers;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Sound;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\SceneGrap;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Application;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Dynamics;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\UserInterface;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\Base\;$(SolutionDir)\..\..\GameFrameWork\StruffyLite\SceneGraph\;$(SolutionDir)\..\..\GameFrameWork\StruffyLiteDX11\RenderSystem\;$(SolutionDir)\..\..\GameFrameWork\StruffyLiteDX11\SceneGraph;$(SolutionDir)\..\..\GameFramework_Tutorials\Tutorial1\SourceCode;$(SolutionDir)\..\..\GameFrameWork\Game\;$(SolutionDir)\..\..\GameFrameWork\Shared;$(SolutionDir)\..\..\GameFramework_ThirdParty\ZLib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(SolutionDir)\..\..\GameFrameWork\StruffyLiteDX11\Base;$(SolutionDir)\..\..\GameFrameWork\Dynamics;$(SolutionDir)\..\..\GameFrameWork\Helper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

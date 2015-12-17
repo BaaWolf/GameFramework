@@ -1,0 +1,7 @@
+Texture0 ship.png
+Lit no
+Mipmaps no
+SortOrder 9
+ZWrite no
+sprite yes
+transparent no
