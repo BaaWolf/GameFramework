@@ -202,7 +202,13 @@ void ApConfig::SetExtension( const BtChar* pExtension )
 
 void ApConfig::SetResourcePath( const BtChar* pResourcePath )
 {
-	BtStrCopy( m_resourcePath, 256, pResourcePath );
+	BtStrCopy( m_resourcePath, sizeof(m_resourcePath), pResourcePath );
+	
+	if (*pResourcePath != '\\' )
+	{
+		//ErrorLog::Fatal_Printf("Path did not end with a slash");
+		BtStrCat(m_resourcePath, sizeof(m_resourcePath), "\\" );
+	}
 
     BtPrint( "%s\n", m_resourcePath );
 }

@@ -40,7 +40,7 @@ void SbMain::Init()
 
 	MtVector2 v2Dimension;
 
-	ApConfig::SetTitle( "Tutorial 1" );
+	ApConfig::SetTitle( "Being a Kraken" );
 
 	if(ApConfig::IsWin() && !ShHMD::IsHMD())
 	{
@@ -56,7 +56,7 @@ void SbMain::Init()
 	RdRandom::SetRandomSeed();
 
 	// Load the game archive
-	ApConfig::SetResourcePath( "\\GameFramework\\GavinWood_Games\\BeingAKraken\\Release\\" );
+	ApConfig::SetResourcePath( "..\\LD33\\Release" );
 
 	if (ApConfig::GetPlatform() == ApPlatform_DX11 )
 	{
@@ -122,7 +122,10 @@ void SbMain::Resize()
 void SbMain::Create()
 {
 	m_gameArchive.Load( "game" );
-	m_hmdArchive.Load( "oculus");
+	if (ShHMD::IsHMD())
+	{
+		m_hmdArchive.Load("oculus");
+	}
 	m_utilityArchive.Load("utility");
     
 	if( ShHMD::IsHMD() )
