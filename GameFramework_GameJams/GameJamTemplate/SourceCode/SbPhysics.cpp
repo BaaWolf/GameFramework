@@ -23,14 +23,10 @@ void SbPhysics::Setup( BaArchive *pArchive )
 	DyImpl::pWorld()->Gravity( MtVector3( 0, -9.8f, 0 ) );
 	DyImpl::pWorld()->SetSubsteps( 0);
 
-	MtVector3 v3CubeDimension(1.0f, 1.0f, 1.0f);
-	BtFloat staticBodyMass = 0.0f;
-	BtFloat reasonableMass = 10.0f;
-
 	m_pCube1 = pArchive->GetNode( "cube" )->GetDuplicate();
-	m_cube1.CreateBox(staticBodyMass, v3CubeDimension);
+	m_cube1.CreateBox( 0, MtVector3( 1.0f, 1.0f, 1.0f ) );
 	m_pCube2 = pArchive->GetNode("cube")->GetDuplicate();
-	m_cube2.CreateBox(reasonableMass, v3CubeDimension);
+	m_cube2.CreateBox( 10.0f, MtVector3(  1.0f,  1.0f, 1.0f ) );
 	
 	// Set the sort orders on the materials recursively
 	HlModel::SetSortOrders(m_pCube1, ModelSortOrder);
@@ -52,11 +48,11 @@ void SbPhysics::Reset()
 {
 	MtMatrix4 m4Transform;
 
-	m4Transform.SetTranslation(  2.0f, -2.0f, 0.0f );
+	m4Transform.SetTranslation( 0, 0, 0.0f );
 	m_cube1.Stop();
 	m_cube1.SetWorldTransform(m4Transform);
 	
-	m4Transform.SetTranslation(  2.0f,  2.0f, 0.0f);
+	m4Transform.SetTranslation( 0, 5.0f, 0.0f);
 	m_cube2.Stop();
 	m_cube2.SetWorldTransform(m4Transform);
 
@@ -99,7 +95,7 @@ void SbPhysics::Render()
 {
 	m_pCube1->Render();
 	m_pCube2->Render();
-	m_softBody.Render();
+	m_softBody.Render( RsColour::WhiteColour() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

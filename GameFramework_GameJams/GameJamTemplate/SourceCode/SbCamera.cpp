@@ -113,71 +113,7 @@ void SbCamera::Update()
 		m_isFlyCam = !m_isFlyCam;
 	}
 
-	for( BtU32 i=1; i<MaxTouches; i+=2 )
-	{
-		if( ShTouch::IsHeld(i) || m_isFlyCam )
-		{
-			BtFloat speed = BtTime::GetTick() * 10.0f;
-
-			if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_LSHIFT))
-			{
-				speed = speed * 10.0f;
-			}
-			if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_W))
-			{
-				MoveForward(speed);
-			}
-			if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_S))
-			{
-				MoveBackward(speed);
-			}
-			if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_D))
-			{
-				MoveRight(speed);
-			}
-			if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_A))
-			{
-				MoveLeft(speed);
-			}
-
-			// Rotate the camera
-			MtVector2 v2MouseDirection = ShTouch::GetMovement(i);
-			speed = BtTime::GetTick() * 0.1f;
-			MtMatrix3 m3Rotate;
-			m3Rotate.SetRotationY( v2MouseDirection.x * -speed );
-			m_cameraData.m_m3Rotation = m3Rotate * m_cameraData.m_m3Rotation;
-			m3Rotate.SetRotationX( v2MouseDirection.y * speed );
-			m_cameraData.m_m3Rotation = m_cameraData.m_m3Rotation * m3Rotate;
-		}
-	}
-
-	static BtBool isCursorKeys = BtFalse;
-
-	// Rotate the camera
-	BtFloat speed = BtTime::GetTick();
-
-	if( UiKeyboard::pInstance()->IsHeld( UiKeyCode_LEFT ) )
-	{
-		isCursorKeys = BtTrue;
-		m_cameraData.m_yaw += speed;
-	}
-	if( UiKeyboard::pInstance()->IsHeld( UiKeyCode_RIGHT ) )
-	{
-		isCursorKeys = BtTrue;
-		m_cameraData.m_yaw -= speed;
-	}
-	if(UiKeyboard::pInstance()->IsHeld(UiKeyCode_UP))
-	{
-		isCursorKeys = BtTrue;
-		m_cameraData.m_pitch -= speed;
-	}
-	if(UiKeyboard::pInstance()->IsHeld(UiKeyCode_DOWN))
-	{
-		isCursorKeys = BtTrue;
-		m_cameraData.m_pitch += speed;
-	}
-
-    if( !ApConfig::IsWin() )
+    if( ApConfig::IsPhone() )
     {
         // Support a landscape quaternion
         MtMatrix3 m_m3Rotation;
@@ -200,36 +136,75 @@ void SbCamera::Update()
         m_m3Rotation = m_m3Rotation * m3RotateZ;
         
         m_camera.SetRotation( m_m3Rotation );
-        
     }
-	else if( ShHMD::IsHMD() )
+    else if( ApConfig::IsWin() )
 	{
-		MtMatrix3 m3RotateY;
-		m3RotateY.SetRotationX( m_cameraData.m_pitch );
-		MtMatrix3 m3RotateX;
-		m3RotateX.SetRotationY( m_cameraData.m_yaw );
-		m_cameraData.m_m3Rotation = m3RotateX * m3RotateY;
+		// Rotate the camera
+		BtFloat speed = BtTime::GetTick();
 
-		// Cache the ShHMD rotation
-		MtQuaternion quaternion = ShHMD::GetQuaternion();
-
-		// Set the IMU rotation
-		MtMatrix4 m4FinalRotation = m_cameraData.m_m3Rotation * MtMatrix3( quaternion );
-
-		// Set the rotation
-		m_camera.SetRotation( m4FinalRotation );
-	}
-	else
-	{
-		if( isCursorKeys )
+		if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_LEFT))
 		{
-			MtMatrix3 m3RotateY;
-			m3RotateY.SetRotationX(m_cameraData.m_pitch);
-			MtMatrix3 m3RotateX;
-			m3RotateX.SetRotationY(m_cameraData.m_yaw);
-			m_cameraData.m_m3Rotation = m3RotateX * m3RotateY;
+			m_cameraData.m_yaw += speed;
+		}
+		if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_RIGHT))
+		{
+			m_cameraData.m_yaw -= speed;
+		}
+		if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_UP))
+		{
+			m_cameraData.m_pitch -= speed;
+		}
+		if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_DOWN))
+		{
+			m_cameraData.m_pitch += speed;
+		}
+ 
+		// Move around using Quake style keys
+		for (BtU32 i = 1; i < MaxTouches; i += 2)
+		{
+			if (ShTouch::IsHeld(i) || m_isFlyCam)
+			{
+				BtFloat speed = BtTime::GetTick() * 10.0f;
+
+				if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_LSHIFT))
+				{
+					speed = speed * 10.0f;
+				}
+				if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_W))
+				{
+					MoveForward(speed);
+				}
+				if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_S))
+				{
+					MoveBackward(speed);
+				}
+				if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_D))
+				{
+					MoveRight(speed);
+				}
+				if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_A))
+				{
+					MoveLeft(speed);
+				}
+
+				// Rotate the camera
+				MtVector2 v2MouseDirection = ShTouch::GetMovement(i);
+				speed = BtTime::GetTick() * 0.1f;
+				MtMatrix3 m3Rotate;
+				m3Rotate.SetRotationY(v2MouseDirection.x * -speed);
+				m_cameraData.m_m3Rotation = m3Rotate * m_cameraData.m_m3Rotation;
+				m3Rotate.SetRotationX(v2MouseDirection.y * speed);
+				m_cameraData.m_m3Rotation = m_cameraData.m_m3Rotation * m3Rotate;
+			}
 		}
 
+		// Rotate the camera using the cursor keys
+		MtMatrix3 m3RotateY;
+		m3RotateY.SetRotationX(m_cameraData.m_pitch);
+		MtMatrix3 m3RotateX;
+		m3RotateX.SetRotationY(m_cameraData.m_yaw);
+		m_cameraData.m_m3Rotation = m3RotateX * m3RotateY;
+		
 		// Set the rotation
 		m_camera.SetRotation( m_cameraData.m_m3Rotation );
 	}

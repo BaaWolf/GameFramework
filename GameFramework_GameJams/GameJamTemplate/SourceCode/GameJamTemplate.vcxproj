@@ -37,50 +37,14 @@
     <ClInclude Include="SbWorld.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\GameData\Game.Archive\Models\cube.dae">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Models\skybox.mqo">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Models\sphere.mqo">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\projectedTexture.frag">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderLit.frag">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderLitTextured.frag">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderPassThrough.frag">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderSkin.frag">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderTextured.frag">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shadow.frag">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\GameData\Game.Archive\Models\cube.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="..\GameData\Game.Archive\Models\panorama.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="..\GameData\menu.archive\Sprites\game.png">
+    <Text Include="..\GameData\menu.archive\UserData\menu.txt">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </Image>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Text>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\GameData\menu.archive\UserData\menu.txt" />
+    <None Include="..\BatchFiles\OpenGameData.bat" />
+    <None Include="..\BatchFiles\Pack.bat" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F07C200D-1AFA-42FF-9DDD-28308B3DC6F7}</ProjectGuid>

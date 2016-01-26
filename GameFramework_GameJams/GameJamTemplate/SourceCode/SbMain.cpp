@@ -31,28 +31,27 @@ void SbMain::Init()
 	m_isClosing = BtFalse;
 	m_isClosed  = BtFalse;
 
-	MtVector2 v2Dimension;
-
 	ApConfig::SetTitle( "GameJamTemplate" );
 
-	if(ApConfig::IsWin() && !ShHMD::IsHMD())
-	{
-		MtVector2 v2Dimension = RsUtil::GetDimension();
-		m_camera.SetDimension(MtVector2(v2Dimension.x, v2Dimension.y));
-		m_camera.Init();
-		//m_camera.SetPosition( MtVector3( 0, 2.0f, -5.0f ) );
-		m_camera.SetPosition(MtVector3(0, 0, 0));
-		m_camera.SetSpeed(10.0f);
-	}
+    // Setup the camera
+    MtVector2 v2Dimension = RsUtil::GetDimension();
+    m_camera.SetDimension(MtVector2(v2Dimension.x, v2Dimension.y));
+    m_camera.Init();
+    //m_camera.SetPosition( MtVector3( 0, 2.0f, -5.0f ) );
+    m_camera.SetPosition(MtVector3(0, 0, 0));
+    m_camera.SetSpeed(10.0f);
     
-	ApConfig::SetDebug( BtTrue );
+	ApConfig::SetDebug( BtFalse );
 
 	RdRandom::SetRandomSeed();
 
-	// Load the game archive
-	ApConfig::SetResourcePath( "..\\GameJamTemplate\\release\\" );
-	ApConfig::SetExtension(".winglz");
-	ApConfig::CheckResourcePath( "game" );
+	// Setup the resource paths
+    if( ApConfig::GetPlatform() == ApPlatform_WinGL )
+    {
+        ApConfig::SetResourcePath( "..\\GameJamTemplate\\release\\" );
+        ApConfig::SetExtension(".winglz");
+        ApConfig::CheckResourcePath( "game" );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,8 +61,7 @@ void SbMain::Create()
 {
 	m_gameArchive.Load( "game" );
 	m_utilityArchive.Load("utility");
-    m_hmdArchive.Load("hmd");
-
+    
 	m_pWhite2 = m_utilityArchive.GetMaterial( "white2" );
 	m_pWhite3 = m_utilityArchive.GetMaterial( "white3" );
 	m_pShader = m_gameArchive.GetShader( "shader" );
@@ -73,6 +71,7 @@ void SbMain::Create()
 	m_physics.Setup(&m_gameArchive);
 	m_smoke.Setup(&m_gameArchive);
 	m_menu.Setup();
+	m_menu.SetRenderDimension( MtVector2(1024.0f, 1024.0f));
 
 	RsMaterial *pMaterial2 = m_utilityArchive.GetMaterial("white2");
 	RsMaterial *pMaterial3 = m_utilityArchive.GetMaterial("white3");
@@ -106,6 +105,12 @@ void SbMain::UpdateTest()
 	m_physics.Update();
 	m_smoke.Update();
 	m_menu.Update();
+
+	// Reset the physics
+	if( m_menu.GetCurrentItem()->m_isPressed )
+	{
+		m_physics.Reset();
+	}
 
 	if(UiKeyboard::pInstance()->IsPressed(DebugKey))
 	{
@@ -152,9 +157,6 @@ void SbMain::Update()
 		// Unload the archive
 		m_utilityArchive.Unload();
         
-		// Unload the oculus archive
-		m_hmdArchive.Unload();
-
 		// Read to close
 		m_isClosed = BtTrue;
 	}
@@ -240,7 +242,7 @@ void SbMain::RestoreRenderTarget()
 	pRenderTarget->SetZCleared( BtTrue );
 
 	// Set a good clear colour
-	pRenderTarget->SetClearColour( RsColour( 0.6f, 0.5f, 0.25, 0 ) );
+	pRenderTarget->SetClearColour( RsColour::NoColour() );
 
 	// Apply this render target
 	pRenderTarget->Apply();
@@ -356,6 +358,8 @@ void SbMain::Render2DInto3D( RsCamera &camera )
 	MtVector3 v3Position = camera.GetPosition() + ( v3AxisZ * distance );
 	//
 
+	m_lockMask = BtFalse;
+
 	if( m_lockMask == BtFalse )
 	{
 		m_v3Vertex[0].m_v3Position.x = v3Position.x - v3AxisXScaled.x - v3AxisYScaled.x;
@@ -409,9 +413,9 @@ void SbMain::Render2DInto3D( RsCamera &camera )
 
 void SbMain::Render2DScene()
 {
-    RsMaterial *pMaterial = m_utilityArchive.GetMaterial("white3");
-    pMaterial->SetTechniqueName( "RsShaderT" );
-    HlMaterial::RenderRightWayUp( pMaterial, MtVector2(0, 0), MtVector2(1024.0f, 1024.0f), MtVector2(1024.0f, 1024.0f) ); 
+    RsMaterial *pMaterial = m_utilityArchive.GetMaterial("white2");
+    pMaterial->SetTechniqueName( "RsShaderT2" );
+   // HlMaterial::RenderRightWayUp( pMaterial, MtVector2(0, 0), MtVector2(1024.0f, 200.0f), MtVector2(1024.0f, 1024.0f) );
 	m_menu.Render();
 }
 
@@ -424,32 +428,6 @@ void SbMain::Render3DScene()
 	m_physics.Render();
 	m_smoke.Render();
 	//m_font.Render();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// RenderFinal
-
-void SbMain::RenderFinal()
-{
-    BtFloat halfWidth = (BtFloat)RsUtil::GetWidth() / 2.0f;
-    BtFloat height = (BtFloat)RsUtil::GetHeight();
-    
-    // Render the left image
-	RsMaterial *pOVRL = m_hmdArchive.GetMaterial("ovrl");
-    MtVector2 v2Dimension = pOVRL->GetDimension();
-    (void)v2Dimension;
-    HlMaterial::RenderUpsideDown( pOVRL, MtVector2( 0, 0 ), MtVector2( halfWidth, height ), RsUtil::GetDimension(), 0);
-    
-    // Render the right image
-	HlMaterial::RenderUpsideDown( pOVRL, MtVector2(halfWidth, 0), MtVector2(halfWidth, height), RsUtil::GetDimension(), 0 );
-    
-    // Mask off the top and bottom
-    BtFloat ratio = 1024.0f / 1920.0f;
-    BtFloat newHeight = 1024.0f * ratio;
-    BtFloat startHeight = (1024.0f - newHeight ) / 2.0f;
-    HlDraw::RenderQuad( MtVector2( 0, 0 ), MtVector2( 1920.0f, startHeight ), RsColour::BlackColour() );
-    BtFloat y = RsUtil::GetHeight() - startHeight;
-    HlDraw::RenderQuad( MtVector2( 0, y ), MtVector2( 1920.0f, startHeight ), RsColour::BlackColour() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -472,61 +450,10 @@ void SbMain::RenderTests()
     SetupRenderToTexture( m_pGUIRenderTarget->GetTexture(0), camera );
     Render2DScene();
     
-	if( ApConfig::IsWin() )
-	{
-		RestoreRenderTarget();
-		m_skybox.Render();
-		Render3DScene();
-		Render2DInto3D( m_camera.GetCamera() );
-
-		//m_pGUIRenderTarget->Render( MtVector2( 0, 0 ), MtVector2( 256.0f, 256.0f ), RsColour::WhiteColour(), MaxSortOrders-1 );
-	}
-	else
-	{
-		// Setup the HMD - hack
-		RsTexture *pLeft = m_hmdArchive.GetTexture("ovrl");
-		ShHMD::SetDimension( pLeft->GetDimension() );
-        
-        MtMatrix4 m4Projection;
-        m4Projection.BuildLeftHandedProjectionMatrix( 0.1f, 1000.0f, 1.0f, MtDegreesToRadians( 60.0f ) );
-		ShHMD::SetProjectionMatrix( m4Projection );
-
-		RsCamera camera = m_camera.GetCamera();
-		MtMatrix4 m4Temp;
-		camera.SetProjection( ShHMD::GetProjectionMatrix() );
-
-		MtVector2 v2Dimension = ShHMD::GetDimension();
-		camera.SetDimension(v2Dimension);
-		camera.SetViewport( RsViewport(0, 0, (BtU32)v2Dimension.x, (BtU32)v2Dimension.y) );
-		camera.SetAspect(1.0f);
-
-		MtVector3 v3Offset = MtVector3(0, 0, 0);
-		camera.SetPosition(v3Offset);
-		camera.Update();
-
-		SetupRenderToTexture(pLeft, camera);
-
-		// Render the camera video source into the HMD
-		RsMaterial *pCamera = m_gameArchive.GetMaterial("camera");
-		RsMaterial *pOVRL = m_hmdArchive.GetMaterial("ovrl");
-		v2Dimension = pOVRL->GetDimension();
-        
-        BtFloat ratio = v2Dimension.x / 1920.0f;
-        BtFloat newHeight = 1024.0f * ratio;
-        
-        MtVector2 v2Position( 0, 0 );
-        v2Position.y += (1024.0f - newHeight ) / 2.0f;
-        v2Dimension.y = newHeight;
-		RenderIntoHMD(pCamera, v2Position, v2Dimension, MtVector2( 1024.0f, 1024.0f ), 0);
-
-		// Render the 3D scene
-		Render3DScene();
-        Render2DInto3D( camera);
-
-		// Restore the render targets and render the result
-		RestoreRenderTarget();
-		RenderFinal();
-	}
+    RestoreRenderTarget();
+    m_skybox.Render();
+    Render3DScene();
+    Render2DInto3D( m_camera.GetCamera() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

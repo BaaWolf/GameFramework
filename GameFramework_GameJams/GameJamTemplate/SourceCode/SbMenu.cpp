@@ -15,6 +15,7 @@
 void SbMenu::Setup()
 {
 	HlView::Setup("menu", "menu", BtFalse );
+	HlView::SetRenderDimension(MtVector2(1024.0f, 1024.0f));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

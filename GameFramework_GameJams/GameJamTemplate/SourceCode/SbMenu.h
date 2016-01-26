@@ -26,8 +26,4 @@ public:
 	// Accessors
 
 private:
-
-	// Private functions
-
-	// Private members
 };

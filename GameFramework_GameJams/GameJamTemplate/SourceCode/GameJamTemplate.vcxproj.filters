@@ -98,71 +98,27 @@
     <Filter Include="SourceCode\ParticleFX">
       <UniqueIdentifier>{fd651c53-35db-4939-8f46-d55865d0cfde}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameData">
-      <UniqueIdentifier>{0fd7b610-50db-4d5c-add8-ff9a8b85ef0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameData\game.archive">
-      <UniqueIdentifier>{2e5efc6f-b902-40e8-bbec-ae0db7b08151}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameData\game.archive\Models">
-      <UniqueIdentifier>{5261afcb-24dc-479a-8a49-da99a59403f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameData\game.archive\Shaders">
-      <UniqueIdentifier>{bae7faa5-e7b7-44af-a879-873d9ba4d584}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameData\menu.archive">
-      <UniqueIdentifier>{dd318d17-bc64-4cd1-96d8-2bb9431f7fe9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCode\Menu">
       <UniqueIdentifier>{817ec002-0254-4c7b-bd1f-eb21fd36c05f}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\GameData\Game.Archive\Shaders\projectedTexture.frag">
-      <Filter>GameData\game.archive\Shaders</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderLit.frag">
-      <Filter>GameData\game.archive\Shaders</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderLitTextured.frag">
-      <Filter>GameData\game.archive\Shaders</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderPassThrough.frag">
-      <Filter>GameData\game.archive\Shaders</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderSkin.frag">
-      <Filter>GameData\game.archive\Shaders</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shaderTextured.frag">
-      <Filter>GameData\game.archive\Shaders</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Shaders\shadow.frag">
-      <Filter>GameData\game.archive\Shaders</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Models\sphere.mqo">
-      <Filter>GameData\game.archive\Models</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Models\skybox.mqo">
-      <Filter>GameData\game.archive\Models</Filter>
-    </None>
-    <None Include="..\GameData\Game.Archive\Models\cube.dae">
-      <Filter>GameData\game.archive\Models</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\GameData\Game.Archive\Models\panorama.png">
-      <Filter>GameData\game.archive\Models</Filter>
-    </Image>
-    <Image Include="..\GameData\Game.Archive\Models\cube.png">
-      <Filter>GameData\game.archive\Models</Filter>
-    </Image>
-    <Image Include="..\GameData\menu.archive\Sprites\game.png">
-      <Filter>GameData\menu.archive</Filter>
-    </Image>
+    <Filter Include="GameData">
+      <UniqueIdentifier>{000f57b4-b79e-47a8-bd10-2cabfc7a27f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BatchFiles">
+      <UniqueIdentifier>{da4609b1-773c-45e9-b303-3ecc3476ad54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\GameData\menu.archive\UserData\menu.txt">
-      <Filter>GameData\menu.archive</Filter>
+      <Filter>GameData</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\BatchFiles\OpenGameData.bat">
+      <Filter>BatchFiles</Filter>
+    </None>
+    <None Include="..\BatchFiles\Pack.bat">
+      <Filter>BatchFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>

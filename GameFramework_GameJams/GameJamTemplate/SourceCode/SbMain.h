@@ -61,7 +61,6 @@ private:
 
 	void							SetupRenderToTexture( RsTexture *pTexture, RsCamera camera );
 	void							SetupRender();
-	void							RenderFinal();
 	void							PlaySound();
 	void							UpdateTest();
 	void							RenderTests();
@@ -71,7 +70,6 @@ private:
 	// Private members
 	BaArchive						m_gameArchive;
 	BaArchive						m_utilityArchive;
-	BaArchive						m_hmdArchive;
 	
 	// Resources
 	RsMaterial					   *m_pTouch;
