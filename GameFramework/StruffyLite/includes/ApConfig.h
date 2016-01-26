@@ -19,6 +19,7 @@ enum ApDevice
     ApDevice_iPad,
     ApDevice_iPhone,
     ApDevice_WIN,
+    ApDevice_AppleTV,
     ApDevice_Max,
 };
 
@@ -40,7 +41,10 @@ public:
     static const BtChar		   *GetExtension();
     static ApDevice             GetDevice();
 	static const BtChar        *GetDelimitter();
+   
 	static BtBool				IsWin();
+	static BtBool				IsPhone();
+	static BtBool				IsAppleTV();
 
 	static void					SetTitle(const BtChar* title);
 	static const BtChar		   *GetTitle();

@@ -24,37 +24,36 @@
 #include "RsRenderTarget.h"
 #include "HlKeyboard.h"
 #include "HlUserData.h"
+#include "HlDraw.h"
+#include "HlFont.h"
 
 // statics
 BaArchive HlView::m_archive;
 BtBool    HlView::m_isLoaded;
 BtChar	  HlView::m_lastArchiveName[32];
 BtArray<HlMenuItems, 64> HlView::m_items;
-BtU32     HlView::m_alignment;
 HlView *HlView::m_pLast = BtNull;
-HlMenuItems *HlView::m_pCurrentMenuItem = BtNull;
-HlMenuItems *HlView::m_pCurrentMenuItemSelected = BtNull;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Setup
 
-void HlView::Setup( const BtChar *archiveName,  const BtChar *screenName, BtBool isBackground )
+void HlView::Setup(const BtChar *archiveName, const BtChar *screenName, BtBool isBackground)
 {
-	BtStrCopy( m_archiveName, 32, archiveName );
-	BtStrCopy( m_screenName,  32, screenName );
+	BtStrCopy(m_archiveName, 32, archiveName);
+	BtStrCopy(m_screenName, 32, screenName);
 	BtStrCopy( m_lastArchiveName, 32, "" );
     m_isLoaded = BtFalse;
 
 	// Set whether we want to render a background
 	m_isBackground = isBackground;
 
-	// Null the current menu item
-	m_pCurrentMenuItem = BtNull;
-
 	// Used to decide what size we are rendering to
 	m_v2RenderDimension = RsUtil::GetDimension();
 
 	m_backgroundSortOrder = MaxSortOrders-1;
+
+	m_pCurrentMenuItem = BtNull;
+	m_pCurrentMenuItemSelected = BtNull;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,9 +93,7 @@ void HlView::LoadMenu()
 	m_items.Empty();
 
 	m_pCurrentMenuItemSelected = BtNull;
-	m_pCurrentMenuItem = BtNull;
 
-	tinyxml2::XMLNode *pNode;
 	tinyxml2::XMLDocument doc;
 	BtBool isParsed = HlUserData::GetXML(doc, &m_archive, m_screenName );
 	if(isParsed)
@@ -111,26 +108,6 @@ void HlView::LoadMenu()
 			while( pItem )
 			{
 				HlMenuItems item;
-
-				item.m_alignment = 0;
-
-				BtStrCopy( item.m_id, 64, "unset_id" );
-
-				// Set the default sort order
-				item.m_sortOrder = MaxSortOrders-1;
-
-				// Set the default fade
-				item.m_fade = 1.0f;
-
-				// We model menu items with a specific resolution in mind. Set this here.
-				// Eventually we can pull this from the XML
-
-				item.m_v2OriginalScreenSize = MtVector2( 800.0f, 600.0f );
-
-				// The default for each menu item is that it doesn't matter if it's a joystick or not
-				item.m_joystick = HlMenuJoystick_Any;
-
-				item.m_joystickButtonID = JoystickButton_MAX;
 
 				// Find the fade
 				tinyxml2::XMLElement *pFade = pItem->FirstChildElement( "FADE" );
@@ -199,47 +176,62 @@ void HlView::LoadMenu()
 					item.m_v2OriginalScreenSize.y = atoi( pScreenWidthString );
 				}
 
-				// Get the sprite name
-				const BtChar *pSpriteName = pItem->FirstChildElement( "SPRITE" )->GetText();
-				item.m_pSprite = m_archive.GetSprite( pSpriteName );
+				// Get the down
+				GetFloatFromXML(pItem, "ANGLE", item.m_angle);
 
-				// Get the index
-                tinyxml2::XMLElement *pElement = pItem->FirstChildElement( "SORTORDER" );
-                if( pElement )
-                {
-                    const BtChar *sortOrder = pElement->GetText();
-                    if( sortOrder )
-                    {
-                        item.m_sortOrder = atoi(sortOrder);
-                    }
-                }
+				// Navigation
 
-				// Get the index 
-				GetIntFromXML( pItem, "INDEX", item.m_index );
+				// Get the left
+				GetIntFromXML(pItem, "LEFT", item.m_left );
 
-				// Get the selected index
-				GetIntFromXML( pItem, "SELECTEDINDEX", item.m_selectedIndex );
+				// Get the right
+				GetIntFromXML(pItem, "RIGHT", item.m_right );
 
-				// Get the background sort order
-				GetUIntFromXML( pItem, "BACKGROUNDSORTORDER", m_backgroundSortOrder );
+				// Get the up
+				GetIntFromXML(pItem, "UP", item.m_up );
 
-				// Find the sprite dimension
-				item.m_v2OriginalDimension = item.m_pSprite->GetDimension( item.m_index );
-							
+				// Get the down
+				GetIntFromXML(pItem, "DOWN", item.m_down );
+
 				// Get the width
-                GetFloatFromXML( pItem, "WIDTH", item.m_v2OriginalDimension.x );
+				GetFloatFromXML(pItem, "WIDTH", item.m_v2OriginalDimension.x);
 
 				// Get the height
-                pElement = pItem->FirstChildElement( "HEIGHT" );
-                if( pElement )
-                {
-                    const BtChar *heightstring = pItem->FirstChildElement( "HEIGHT" )->GetText();
+				GetFloatFromXML(pItem, "HEIGHT", item.m_v2OriginalDimension.y);
 
-                    if( heightstring )
-                    {
-                        item.m_v2OriginalDimension.y = atoi( heightstring );
-                    }
-                }
+				// Get the index 
+				GetIntFromXML(pItem, "INDEX", item.m_spriteIndex);
+
+				// Get the sprite name
+				tinyxml2::XMLElement *pSpriteItem = pItem->FirstChildElement("SPRITE");
+				if( pSpriteItem )
+				{
+					const BtChar *pSpriteName = pSpriteItem->GetText();
+					item.m_pSprite = m_archive.GetSprite( pSpriteName );
+
+					// Get the index
+					tinyxml2::XMLElement *pElement = pItem->FirstChildElement( "SORTORDER" );
+					if (pElement)
+					{
+						const BtChar *sortOrder = pElement->GetText();
+						if (sortOrder)
+						{
+							item.m_sortOrder = atoi(sortOrder);
+						}
+					}
+
+					// Find the sprite dimension
+					item.m_v2OriginalDimension = item.m_pSprite->GetDimension(item.m_spriteIndex);
+				}
+
+				// Get the selected index
+				GetIntFromXML( pItem, "SELECTEDINDEX", item.m_selectedSpriteIndex );
+
+				// Get whether there is a background
+				GetBoolFromXML(pItem, "BACKGROUND", m_isBackground );
+
+				// Get the background sort order
+ 				GetUIntFromXML( pItem, "BACKGROUNDSORTORDER", m_backgroundSortOrder );
 				
 				// Get the x 
 				const BtChar *xstring = pItem->FirstChildElement( "X" )->GetText();
@@ -357,13 +349,13 @@ void HlView::LoadMenu()
 					}
 				}
 
-				// Get whether this is joystick only
-				tinyxml2::XMLElement *pJoystickOnly = pItem->FirstChildElement( "JOYSTICK" );
-				if( pJoystickOnly )
+				// Get whether this is apple TV only
+				tinyxml2::XMLElement *pJoystickOnly = pItem->FirstChildElement("JOYSTICK");
+				if (pJoystickOnly)
 				{
 					const BtChar *pJoystickOnlyText = pJoystickOnly->GetText();
 
-					if( BtStrCompareNoCase( pJoystickOnlyText, "TRUE" ) )
+					if (BtStrCompareNoCase(pJoystickOnlyText, "TRUE"))
 					{
 						item.m_joystick = HlMenuJoystick_Yes;
 					}
@@ -372,6 +364,9 @@ void HlView::LoadMenu()
 						item.m_joystick = HlMenuJoystick_No;
 					}
 				}
+
+				// Is this shown on Apple TV?
+				GetBoolFromXML(pItem, "APPLETV", item.m_isAppleTV);
 
 				// Add each item
 				m_items.Add( item );
@@ -395,13 +390,11 @@ void HlView::LoadMenu()
 void HlView::UpdateMenu()
 {
 	// Re-load the menu
-    if( ApConfig::IsWin() && UiKeyboard::pInstance()->IsPressed( UiKeyCode_F2 ) )
+	if (ApConfig::IsWin() && UiKeyboard::pInstance()->IsPressed(UiKeyCode_F2))
 	{
-		int a=0;
+		int a = 0;
 		a++;
 	}
-
-	m_pCurrentMenuItem = BtNull;
 
 	BtU32 numItems = m_items.GetNumItems();
 
@@ -415,87 +408,198 @@ void HlView::UpdateMenu()
 		item.m_isHeld = BtFalse;
 	}
 
+	m_pCurrentMenuItemSelected = BtNull;
+
 	// Refactor these for the current viewport
-	for(BtU32 i = 0; i < numItems; i++)
+	for (BtU32 i = 0; i < numItems; i++)
 	{
 		// Cache each item
 		HlMenuItems &item = m_items[i];
 
 		// Refactor the position
-		item.m_v2Position = HlScreenSize::Refactor(item.m_v2OriginalScreenSize, item.m_v2OriginalPosition, m_v2RenderDimension );
+		item.m_v2Position = HlScreenSize::Refactor(item.m_v2OriginalScreenSize, item.m_v2OriginalPosition, m_v2RenderDimension);
 
 		// Refactor the size
-		item.m_v2Dimension = HlScreenSize::Refactor(item.m_v2OriginalScreenSize, item.m_v2OriginalDimension, m_v2RenderDimension );
+		item.m_v2Dimension = HlScreenSize::Refactor(item.m_v2OriginalScreenSize, item.m_v2OriginalDimension, m_v2RenderDimension);
 	}
 
-	for (BtU32 touch = 0; touch < MaxTouches; touch++)
-	{
-		MtVector2 v2MousePosition = ShTouch::GetPosition( touch );
-		v2MousePosition.x = v2MousePosition.x / RsUtil::GetDimension().x * m_v2RenderDimension.x;
-		v2MousePosition.y = v2MousePosition.y / RsUtil::GetDimension().y * m_v2RenderDimension.y;
+	if( numItems )
+    {
+        // Move the cursor left
+        if (ShJoystick::IsPressed(JoystickButton_Left ))
+        {
+            if (m_pCurrentMenuItem && m_pCurrentMenuItem->m_left != -1)
+            {
+                m_pCurrentMenuItem = FindItem(m_pCurrentMenuItem->m_left );
+            }
+        }
 
-		BtU32 numItems = m_items.GetNumItems();
+        // Move the cursor right
+        if (ShJoystick::IsPressed(JoystickButton_Right ))
+        {
+            if (m_pCurrentMenuItem && m_pCurrentMenuItem->m_right != -1)
+            {
+                m_pCurrentMenuItem = FindItem(m_pCurrentMenuItem->m_right);
+            }
+        }
 
-		for (BtU32 i = 0; i < numItems; i++)
+        // Move the cursor up
+        if (ShJoystick::IsPressed(JoystickButton_Up))
+        {
+            if ( m_pCurrentMenuItem && m_pCurrentMenuItem->m_up != -1)
+            {
+                m_pCurrentMenuItem = FindItem(m_pCurrentMenuItem->m_up);
+            }
+        }
+
+        // Move the cursor around
+        if (ShJoystick::IsPressed(JoystickButton_Down))
+        {
+            if (m_pCurrentMenuItem && m_pCurrentMenuItem->m_down != -1)
+            {
+                m_pCurrentMenuItem = FindItem(m_pCurrentMenuItem->m_down );
+            }
+        }
+
+        // Respond to enter
+		if (UiKeyboard::pInstance()->IsReleased(UiKeyCode_RETURN))
 		{
-			// Cache each item
-			HlMenuItems &item = m_items[i];
-	
-			if( item.m_joystickButtonID != JoystickButton_MAX )
-			{
-				if( ShJoystick::IsReleased( item.m_joystickButtonID ) )
-				{
-					item.m_isReleased = BtTrue;
-					m_pCurrentMenuItem = &item;
-				}
-				if( ShJoystick::IsHeld( item.m_joystickButtonID ) )
-				{
-					item.m_isHeld = BtTrue;
-				}
-				if( ShJoystick::IsPressed( item.m_joystickButtonID ) )
-				{
-					item.m_isPressed = BtTrue;
-				}
-			}
+			m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+			m_pCurrentMenuItemSelected->m_isPressed = BtFalse;
+			m_pCurrentMenuItemSelected->m_isHeld = BtFalse;
+			m_pCurrentMenuItemSelected->m_isReleased = BtTrue;
+		}
+		else if (UiKeyboard::pInstance()->IsPressed(UiKeyCode_RETURN))
+		{
+			m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+			m_pCurrentMenuItemSelected->m_isPressed = BtFalse;
+			m_pCurrentMenuItemSelected->m_isHeld = BtTrue;
+			m_pCurrentMenuItemSelected->m_isReleased = BtFalse;
+		}
+		else if (UiKeyboard::pInstance()->IsHeld(UiKeyCode_RETURN))
+		{
+			m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+			m_pCurrentMenuItemSelected->m_isPressed = BtFalse;
+			m_pCurrentMenuItemSelected->m_isReleased = BtFalse;
+			m_pCurrentMenuItemSelected->m_isHeld = BtTrue;
+		}
+    }
 
-			if( item.m_isSelectable )
+	if (ApConfig::IsWin() )
+	{
+		// Have any buttons been touched with the mouse?
+		for (BtU32 touch = 0; touch < MaxTouches; touch++)
+		{
+			BtU32 numItems = m_items.GetNumItems();
+
+			for (BtU32 i = 0; i < numItems; i++)
 			{
-				if( v2MousePosition.x > item.m_v2Position.x )
+				// Cache each item
+				HlMenuItems &item = m_items[i];
+
+				if (item.m_joystickButtonID != JoystickButton_MAX)
 				{
-					if( v2MousePosition.x < item.m_v2Position.x + item.m_v2Dimension.x )
+					if (ShJoystick::IsReleased(item.m_joystickButtonID))
 					{
-						if( v2MousePosition.y > item.m_v2Position.y )
-						{
-							if( v2MousePosition.y < item.m_v2Position.y + item.m_v2Dimension.y )
-							{
-								if( ShTouch::IsPressed( touch ) )
-								{
-									m_pCurrentMenuItemSelected = &item;
-									item.m_isPressed = BtTrue;
-								}
-								if( ShTouch::IsHeld( touch ) )
-								{
-									if( &item == m_pCurrentMenuItemSelected )
-									{
-										m_pCurrentMenuItemSelected = &item;
-										item.m_isHeld = BtTrue;
-									}
-								}
-								if( ShTouch::IsReleased( touch ) )
-								{
-									if( &item == m_pCurrentMenuItemSelected )
-									{
-										m_pCurrentMenuItem = m_pCurrentMenuItemSelected;
-										item.m_isReleased = BtTrue;
-									}
-								}
-							}
-						}
+						item.m_isReleased = BtTrue;
+						m_pCurrentMenuItem = &item;
+					}
+					if (ShJoystick::IsHeld(item.m_joystickButtonID))
+					{
+						item.m_isHeld = BtTrue;
+					}
+					if (ShJoystick::IsPressed(item.m_joystickButtonID))
+					{
+						item.m_isPressed = BtTrue;
 					}
 				}
 			}
 		}
 	}
+
+	if( ApConfig::IsWin() || ApConfig::IsPhone() )
+	{
+        // Have any positions been touched?
+        for (BtU32 touch = 0; touch < MaxTouches; touch++)
+        {
+            MtVector2 v2TouchPosition = ShTouch::GetPosition(touch);
+            
+			// Map the touch position (screen width, screen height) onto the 2d render target 
+			v2TouchPosition = HlScreenSize::Refactor( RsUtil::GetDimension(), v2TouchPosition, m_v2RenderDimension);
+
+            for (BtU32 i = 0; i < numItems; i++)
+            {
+                // Cache each item
+                HlMenuItems &item = m_items[i];
+                
+                if( item.m_isSelectable )
+                {
+                    if( v2TouchPosition.x > item.m_v2Position.x )
+                    {
+                        if( v2TouchPosition.x < item.m_v2Position.x + item.m_v2Dimension.x )
+                        {
+                            if( v2TouchPosition.y > item.m_v2Position.y )
+                            {
+                                if( v2TouchPosition.y < item.m_v2Position.y + item.m_v2Dimension.y )
+                                {
+                                    if( ShTouch::IsPressed( touch ) )
+                                    {
+										m_pCurrentMenuItem = &item;
+										m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+										item.m_isPressed = BtTrue;
+                                    }
+                                    if( ShTouch::IsHeld( touch ) )
+                                    {
+                                        if( &item == m_pCurrentMenuItem)
+                                        {
+											m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+                                            item.m_isHeld = BtTrue;
+                                        }
+                                    }
+                                    if( ShTouch::IsReleased( touch ) )
+                                    {
+                                        if( &item == m_pCurrentMenuItem)
+                                        {
+											m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+                                            item.m_isReleased = BtTrue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+	}
+
+	if( ApConfig::IsAppleTV() )
+    {
+        for (BtU32 touch = 0; touch < MaxTouches; touch++)
+        {
+			if (ShTouch::IsReleased(touch))
+            {
+                m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+                m_pCurrentMenuItemSelected->m_isPressed = BtFalse;
+                m_pCurrentMenuItemSelected->m_isHeld = BtFalse;
+                m_pCurrentMenuItemSelected->m_isReleased = BtTrue;
+            }
+			else if (ShTouch::IsPressed(touch))
+			{
+				m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+				m_pCurrentMenuItemSelected->m_isPressed = BtTrue;
+				m_pCurrentMenuItemSelected->m_isHeld = BtFalse;
+				m_pCurrentMenuItemSelected->m_isReleased = BtFalse;
+			}
+			else if (ShTouch::IsHeld(touch))
+			{
+				m_pCurrentMenuItemSelected = m_pCurrentMenuItem;
+				m_pCurrentMenuItemSelected->m_isPressed = BtFalse;
+				m_pCurrentMenuItemSelected->m_isHeld = BtTrue;
+				m_pCurrentMenuItemSelected->m_isReleased = BtFalse;
+			}
+		}
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -523,6 +627,14 @@ void HlView::Load()
 		// Get the material which has the same name as the archive for simplicity
 		m_pBackgroundMaterial = m_archive.GetMaterial( m_screenName );
 	}
+
+	// Set the selection to NULL
+	m_pCurrentMenuItemSelected = BtNull;
+
+	if (m_items.GetNumItems() && !m_pCurrentMenuItem)
+	{
+		m_pCurrentMenuItem = &m_items[0];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -530,6 +642,18 @@ void HlView::Load()
 
 void HlView::Update()
 {
+	if ( HlKeyboard::IsNumericPressed() )
+	{
+		if (m_pLast)
+		{
+			m_pLast->OnExit();
+		}
+
+		Unload();
+		Load();
+		OnEntry();
+	}
+
 	if( BtStrCompare( m_lastArchiveName, m_archiveName ) == BtFalse )
 	{
 		if( m_pLast )
@@ -573,6 +697,8 @@ void HlView::Unload()
 {
 	if( m_isLoaded )
 	{	
+		BtStrCopy( m_lastArchiveName, "");
+
 		// Unload the menu items
 		m_items.Empty();
 
@@ -633,39 +759,59 @@ void HlView::RenderMenu()
 			RsColour colour( RsColour::WhiteColour() );
 			colour.Alpha( item.m_fade );
 
-			// Get the index of the sprite
-			BtU32 index = item.m_index;
+			if (item.m_pSprite)
+			{
+				// Get the index of the sprite
+				BtU32 index = item.m_spriteIndex;
 
-			if( item.m_isHeld == BtTrue )
-			{
-				if( item.m_selectedIndex != -1 )
+				// Is this item button held?
+				if (item.m_isHeld == BtTrue)
 				{
-					index = item.m_selectedIndex;
+					// If it is select the selected sprite index
+					if (item.m_selectedSpriteIndex != -1)
+					{
+						index = item.m_selectedSpriteIndex;
+					}
+					else
+					{
+						// If we don't have a selected sprite then fade the normal sprite
+						colour = RsColour(item.m_fadeWhenSelected, item.m_fadeWhenSelected, item.m_fadeWhenSelected, 1.0f);
+					}
 				}
-				else
-				{
-					colour = RsColour( item.m_fadeWhenSelected, item.m_fadeWhenSelected, item.m_fadeWhenSelected, 1.0f );
-				}
-			}
 
-			if( ShJoystick::IsConnected() == BtTrue )
-			{
-				if( item.m_joystick != HlMenuJoystick_No )
-				{
-					// Render each item
-					item.m_pSprite->Render( BtFalse, item.m_v2Position, item.m_v2Dimension, index, 0, colour, MaxSortOrders-1 );
-				}
+				// Render each item
+				item.m_pSprite->Render(BtFalse, item.m_v2Position, item.m_v2Dimension, index, 0, colour, MaxSortOrders - 1);
 			}
-			else
+			
+			// Render the debug menu items
+			if( ApConfig::IsDebug() )
 			{
-				if( item.m_joystick != HlMenuJoystick_Yes )
+				RsColour light(1.0f, 1.0f, 1.0f, 0.25f);
+
+				if( &item == m_pCurrentMenuItem)
 				{
-					// Render each item
-					item.m_pSprite->Render( BtFalse, item.m_v2Position, item.m_v2Dimension, index, 0, colour, MaxSortOrders-1 );
+					light = RsColour(1.0f, 0.7f, 0.5f, 0.8f);
 				}
+//				HlDraw::RenderRotatedQuad( item.m_v2Position, item.m_v2Dimension, item.m_angle, light, MaxSortOrders - 1);
 			}
 		}
+        else
+        {
+ //           HlDraw::RenderQuad( item.m_v2Position, item.m_v2Dimension, RsColour( 1.0f, 0, 0, 0.5f), MaxSortOrders-1 );
+        }
 	}
+
+	/*
+	for (BtU32 i = 0; i < numItems; i++)
+	{
+		// Cache each item
+		HlMenuItems &item = m_items[i];
+
+		BtChar text[32];
+		sprintf(text, "%d", touch );
+		HlFont::Render(MtVector2(0, 0), 3.0f, text, RsColour::BlackColour(), MaxSortOrders - 1);
+	}
+	*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -673,6 +819,11 @@ void HlView::RenderMenu()
 
 void HlView::Render()
 {
+	if( !m_isLoaded )
+	{
+		return;
+	}
+
 //	if( BtStrCompare( m_lastArchiveName, m_archiveName ) == BtFalse )
 //	{
 //		Unload();

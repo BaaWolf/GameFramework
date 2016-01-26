@@ -11,6 +11,8 @@
 #include "BtTypes.h"
 #include "MtVector2.h"
 #include "ShJoystick.h"
+#include "RsRenderTarget.h"
+#include "BtString.h"
 #include <vector>
 
 class RsTexture;
@@ -24,7 +26,6 @@ enum HlMenuJoystick
 	HlMenuJoystick_MAX,
 };
 
-
 const BtU32 HlMenuItemAlignment_HorizontalCentre = 1 << 0;
 const BtU32 HlMenuItemAlignment_VerticalCentre = 1 << 1;
 const BtU32 HlMenuItemAlignment_Left = 1 << 2;
@@ -36,29 +37,82 @@ struct HlMenuItems
 {
 	HlMenuItems()
 	{
-		m_selectedIndex = -1;
+		m_selectedSpriteIndex = -1;
+		m_pSprite = BtNull;
+		m_alignment = 0;
+		m_angle = 0;						// default orientation
+
+		BtStrCopy(m_id, 64, "unset_id");
+
+		// Set the default sort order
+		m_sortOrder = MaxSortOrders - 1;
+
+		// Set the default fade
+		m_fade = 1.0f;
+
+		// We model menu items with a specific resolution in mind. Set this here.
+		// Eventually we can pull this from the XML
+
+		m_v2OriginalScreenSize = MtVector2(800.0f, 600.0f);
+
+		// The default for each menu item is that it doesn't matter if it's a joystick or not
+		m_joystick = HlMenuJoystick_Any;
+
+		// Shown on which platforms
+		m_isAppleTV = BtTrue;
+		m_isPC = BtTrue;
+
+		// Which joystick button presses the ID
+		m_joystickButtonID = JoystickButton_MAX;
+
+		// Navigation
+		m_down = -1;
+		m_up = -1;
+		m_left = -1;
+		m_right = -1;
 	}
 
+	// ID and tags
+	BtChar									m_id[64];
+
+	// Sprite rendering
+	BtS32									m_spriteIndex;						// Index of sprite
+	BtS32									m_selectedSpriteIndex;				// Index of sprite when selected
 	RsSprite							   *m_pSprite;
-	int										m_index;
-	int										m_selectedIndex;
-	MtVector2								m_v2OriginalScreenSize;
-	MtVector2								m_v2OriginalPosition;
-	MtVector2								m_v2OriginalDimension;
+
+	// Rendering properties
 	MtVector2								m_v2Position;
 	MtVector2								m_v2Dimension;
-	BtChar									m_id[64];
 	BtBool									m_isVisible;
 	BtFloat									m_fade;
 	BtFloat									m_fadeWhenSelected;
+	BtU32									m_sortOrder;
+
+	// Touch interaction
 	BtBool									m_isPressed;
 	BtBool									m_isReleased;
 	BtBool									m_isHeld;
-	HlMenuJoystick							m_joystick;
-	ShJoystickButton						m_joystickButtonID;
 	BtBool									m_isSelectable;
-	BtU32									m_sortOrder;
+
+	// What is the positioning of the item
+	MtVector2								m_v2OriginalScreenSize;
+	MtVector2								m_v2OriginalPosition;
+	MtVector2								m_v2OriginalDimension;
 	BtU32									m_alignment;
+	BtFloat									m_angle;
+
+	ShJoystickButton						m_joystickButtonID;
+
+	// Do we need all the items
+	BtBool									m_isAppleTV;
+	BtBool									m_isPC;
+	HlMenuJoystick							m_joystick;
+
+	// Navigation
+	BtS32									m_down;
+	BtS32									m_up;
+	BtS32									m_left;
+	BtS32									m_right;
 };
 
 // Class definition
@@ -83,21 +137,28 @@ public:
 
 	// Accessors
 	void									SetRenderDimension( MtVector2 v2Dimension );
+	
 	void									SetVisible( BtU32 index, BtBool isVisible );
 	void									SetVisible( const BtChar *name, BtBool isVisible );
 	BtBool									GetVisible( BtU32 index );
+
 	HlMenuItems							   *GetCurrentItemSelected();
+	HlMenuItems							   *GetCurrentItem();
+
 	HlMenuItems						  	   *FindItem( const BtChar *name );
 	HlMenuItems						  	   *FindItem( BtU32 id );
+	
 	BtU32									GetNumItems();
+	
 	void									SetBackground( BtBool isBackground );
-
-	static BtBool							IsEqual( const BtChar *string );
+	
+	BtBool									IsEqual( const BtChar *string );
 
 protected:
 
-	static HlMenuItems					   *m_pCurrentMenuItem;
-	static HlMenuItems					   *m_pCurrentMenuItemSelected;
+	HlMenuItems							   *m_pCurrentMenuItemSelected;				// Is selection
+	HlMenuItems							   *m_pCurrentMenuItem;						// Going to be new selection
+
 	BtBool									m_isBackground;
 
 	void									UpdateMenu();
@@ -120,11 +181,15 @@ protected:
 	static BaArchive						m_archive;
 	static BtChar							m_lastArchiveName[32];
     static BtBool                           m_isLoaded;
-	static BtU32                            m_alignment;
 	BtU32									m_backgroundSortOrder;
 };
 
 inline HlMenuItems *HlView::GetCurrentItemSelected()
 {
 	return m_pCurrentMenuItemSelected;
+}
+
+inline HlMenuItems *HlView::GetCurrentItem()
+{
+	return m_pCurrentMenuItem;
 }

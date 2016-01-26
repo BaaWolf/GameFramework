@@ -31,7 +31,7 @@ ApConfig::ApConfig()
 {
 	BtStrCopy( m_documents, 256, "" );
     BtStrCopy( m_resourcePath, 256, "" );
-	BtStrCopy( m_title, 256, "Struffy" );
+	BtStrCopy( m_title, 256, "AppleTurnover" );
     m_isSimulator = BtFalse;
 
 #ifdef _DEBUG
@@ -202,13 +202,7 @@ void ApConfig::SetExtension( const BtChar* pExtension )
 
 void ApConfig::SetResourcePath( const BtChar* pResourcePath )
 {
-	BtStrCopy( m_resourcePath, sizeof(m_resourcePath), pResourcePath );
-	
-	if (*pResourcePath != '\\' )
-	{
-		//ErrorLog::Fatal_Printf("Path did not end with a slash");
-		BtStrCat(m_resourcePath, sizeof(m_resourcePath), "\\" );
-	}
+	BtStrCopy( m_resourcePath, 256, pResourcePath );
 
     BtPrint( "%s\n", m_resourcePath );
 }
@@ -270,6 +264,30 @@ const BtChar* ApConfig::GetExtension()
 ApDevice ApConfig::GetDevice()
 {
     return m_device;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// IsAppleTV
+
+BtBool ApConfig::IsAppleTV()
+{
+    if( m_device == ApDevice_AppleTV )
+    {
+        return BtTrue;
+    }
+    return BtFalse;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// IsPhone
+
+BtBool ApConfig::IsPhone()
+{
+	if (m_device == ApDevice_iPhone )
+	{
+		return BtTrue;
+	}
+	return BtFalse;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
