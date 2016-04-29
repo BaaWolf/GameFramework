@@ -9,13 +9,15 @@ My entry was http://baawolf.itch.io/being-a-kraken which was a first person game
 
 Includes:
 
-Deferred rendering:
- 3D rendering
- 2D rendering
- Font rendering
- Particle system
- Ad-hoc vertex
- Shader support
-Fast loading
-Open GL and Open GLES support
+* IDE free resource management
+* Near instant fast loading of resources
+* Deferred rendering
+* 3D rendering
+* 2D rendering
+* OpenAL Sound rendering and management
+* Fast font rendering using Angel Code - Bitmap font generator as a source for bitmaps
+* Particle system examples
+* Ad-hoc vertex
+* Vertex and fragment Shader support
+* Open GL and Open GLES support
 
