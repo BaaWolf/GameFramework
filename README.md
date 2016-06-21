@@ -9,15 +9,39 @@ My entry was http://baawolf.itch.io/being-a-kraken which was a first person game
 
 Includes:
 
-* IDE free resource management
-* Near instant fast loading of resources
+
+* IDE (Integrated Developer Environment) free resource management
+
+* Fast loading
+  Near instant - very fast loading of packed optimised resources
+
 * Deferred rendering
+  Game rendering code does not need to sort its rendering calls
+
 * 3D rendering
-* 2D rendering
+  Fully lit skinned animations and meshes
+
+* 2D pipeline
+  Rendering of standard flat output sprites and billboarded for 3D games
+
 * OpenAL Sound rendering and management
-* Fast font rendering using Angel Code - Bitmap font generator as a source for bitmaps
+
+* Fast font rendering
+  Uses Angel Code - uses source assets dervied from Angel Code's Bitmap font generator as a source for bitmaps
+
 * Particle system examples
+  Ad-hoc particle vertex based on optimised vertex submission
+
 * Ad-hoc vertex
-* Vertex and fragment Shader support
+  optimised vertex for any rendering e.g. skyboxes
+
+* Debug primitives - 
+  Lines, circles, frustums etc.
+
+* Vertex and fragment Shaders
+  Support with ad-hoc shaders easy to integrate
+
 * Open GL and Open GLES support
+  For better compatibility with non PC skews
+
 
